@@ -1,0 +1,13 @@
+.keyboardWrapper {
+    margin-top: 2rem;
+}
+
+.keysRow {
+    margin: 0.5rem;
+}
+
+.key {
+    width: 3rem;
+    height: 3rem;
+    margin: 0.2rem;
+}

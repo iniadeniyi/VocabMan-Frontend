@@ -1,0 +1,37 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    text-align: left;
+}
+
+.wordOfTheDay span {
+    font-size: 1.25em; /* Larger font size for the word of the day */
+}
+
+.examples {
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Align items vertically */
+}
+
+.examples strong {
+    margin-right: 8px; /* Add some space between the label and the content */
+}
+
+button {
+    /* Your existing styles */
+}
