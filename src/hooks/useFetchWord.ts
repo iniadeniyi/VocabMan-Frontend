@@ -4,7 +4,6 @@ const fetchWord = async () => {
     const response = await fetch(
         "https://vocabman-backend.onrender.com/api/word-of-the-day"
     );
-    console.log(response);
     if (!response.ok) {
         console.log("error");
 
@@ -12,7 +11,6 @@ const fetchWord = async () => {
     }
 
     const data = await response.json();
-    console.log(data);
     return data;
 };
 
