@@ -1,16 +1,8 @@
+import { WordData } from "../../hooks/useFetchWord";
 import styles from "./GameOverModal.module.css";
 
 interface GameOverModalProps {
-    data: {
-        word: string;
-        definition: {
-            definition: string;
-            partOfSpeech?: string;
-        };
-        antonyms: string[];
-        synonyms: string[];
-        examples: string[];
-    };
+    data?: WordData;
     isOpen: boolean;
     onClose: () => void;
 }
