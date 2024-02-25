@@ -27,13 +27,13 @@
 }
 
 .front {
-    background-color: #6c6868;
+    background-color: #7f8c8d;
     color: white;
     box-shadow: 0 0 5px 2px green;
 }
 
 .back {
-    background-color: #3f3e3e;
+    background-color: #302f2f;
     transform: rotateY(180deg);
     box-shadow: 0 0 5px 2px red;
 }

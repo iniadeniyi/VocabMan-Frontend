@@ -1,11 +1,47 @@
 .gameContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background-color: #f5f5f7; /* Adjust background color as needed */
+    min-height: 100vh; /* Full height */
 }
 
-.infoSectionConainer {
+.infoSectionContainer {
+    margin-bottom: 30px;
+    text-align: center;
+    color: #333; /* For better readability */
 }
 
-.wordDisplayContainer {
+.interactionWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    max-width: 600px; /* Adjust based on your preference */
+    width: 100%;
+    gap: 20px; /* Space between WordDisplay and Keyboard */
 }
 
-.keyboardWrapper {
+.button {
+    background-color: #007bff; /* Primary color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+}
+
+/* Ensure WordDisplay and Keyboard have their CSS for internal elements */
+.wordDisplay,
+.keyboard {
+    width: 100%; /* Full width within the wrapper */
+    /* Additional styling as needed */
 }
