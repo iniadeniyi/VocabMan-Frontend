@@ -63,17 +63,19 @@ function GamePage() {
             <div className={styles.infoSectionContainer}>
                 Tries Left: {gameState.remainingAttempts}
             </div>
-            <WordDisplay
-                key={`display-${wordOfTheDay}`}
-                word={wordOfTheDay}
-                guessedLetters={gameState.guessedLetters}
-            />
-            <Keyboard
-                key={`keyboard-${wordOfTheDay}`}
-                handleClick={handleKeyboardClick}
-                guessedLetters={gameState.guessedLetters}
-                isDisabled={gameState.gameStatus !== "playing"}
-            />
+            <div className={styles.interactionWrapper}>
+                <WordDisplay
+                    key={`display-${wordOfTheDay}`}
+                    word={wordOfTheDay}
+                    guessedLetters={gameState.guessedLetters}
+                />
+                <Keyboard
+                    key={`keyboard-${wordOfTheDay}`}
+                    handleClick={handleKeyboardClick}
+                    guessedLetters={gameState.guessedLetters}
+                    isDisabled={gameState.gameStatus !== "playing"}
+                />
+            </div>
             <GameOverModal
                 data={wordData}
                 isOpen={isModalOpen}

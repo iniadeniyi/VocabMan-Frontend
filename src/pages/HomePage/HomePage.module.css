@@ -6,12 +6,45 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
+    background-color: #f4f7f6;
+    color: #333;
+    font-family: "Arial", sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container > div {
+    margin-bottom: 20px;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #5d93ff;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin: 10px 0;
+    color: #4a90e2;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
     text-align: center;
+    color: #7f8c8d;
+    max-width: 600px;
 }
 
 .button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 18px;
+    background-color: #ffbd44;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-size: 1.25rem;
+    color: white;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #ff9900;
 }

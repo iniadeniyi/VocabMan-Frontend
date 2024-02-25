@@ -1,13 +1,39 @@
 .keyboardWrapper {
-    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Space between rows */
+    padding: 20px;
 }
 
 .keysRow {
-    margin: 0.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 5px; /* Space between keys */
 }
 
 .key {
-    width: 3rem;
-    height: 3rem;
-    margin: 0.2rem;
+    background-color: #007bff; /* Primary button color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    user-select: none; /* Prevent the text on the button from being selectable */
+    -webkit-tap-highlight-color: transparent; /* Prevent tap highlight color on iOS */
+}
+
+.key:disabled {
+    background-color: #cccccc; /* Disabled button color */
+    cursor: default;
+}
+
+.key:not(:disabled):hover,
+.key:not(:disabled):focus {
+    background-color: #0056b3; /* Hover/Focus color */
+    transform: scale(1.05); /* Slight increase in size */
+    outline: none;
 }

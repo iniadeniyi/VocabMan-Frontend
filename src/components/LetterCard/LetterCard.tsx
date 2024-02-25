@@ -20,7 +20,9 @@ function LetterCard({ letter, isGuessed }: LetterCardProps) {
             <div
                 className={`${styles.card} ${!isFlipped ? styles.flipped : ""}`}
             >
-                <div className={styles.front}>{letter}</div>
+                <div className={styles.front}>
+                    <strong>{letter}</strong>
+                </div>
                 <div className={styles.back}></div>
             </div>
         </div>
