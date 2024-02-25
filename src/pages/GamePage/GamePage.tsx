@@ -14,7 +14,7 @@ import GameOverModal from "../../components/GameOverModal/GameOverModal";
 import { format } from "date-fns";
 
 function GamePage() {
-    const { data: wordData, isLoading } = useFetchWord();
+    const { data: wordData } = useFetchWord();
     const { gameState, setGameState } = useGameStateContext();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [wordOfTheDay, setWordOfTheDay] = useState("");
@@ -22,7 +22,6 @@ function GamePage() {
     useEffect(() => {
         const today = format(new Date(), "yyyy-MM-dd");
         const storedGameState = loadGameState();
-        console.log(storedGameState);
 
         if (!storedGameState || storedGameState.lastPlayed !== today) {
             setGameState(getInitialGameState());
