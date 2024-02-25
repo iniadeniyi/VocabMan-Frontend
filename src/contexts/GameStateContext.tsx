@@ -4,8 +4,6 @@ import { GameState, loadGameState } from "../utils/gameUtils";
 interface GameStateContextType {
     gameState: GameState;
     setGameState: React.Dispatch<React.SetStateAction<GameState>>;
-    wordOfTheDay: string;
-    setWordOfTheDay: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface GameProviderProps {
@@ -19,14 +17,11 @@ const GameStateContext = createContext<GameStateContextType>(
 export const GameStateProvider: React.FC<GameProviderProps> = ({
     children,
 }) => {
-    const [gameState, setGameState] = useState<GameState>(loadGameState());
-    const [wordOfTheDay, setWordOfTheDay] = useState<string>("");
+    const [gameState, setGameState] = useState<GameState>({} as GameState);
 
     const contextValue = {
         gameState,
         setGameState,
-        wordOfTheDay,
-        setWordOfTheDay,
     };
 
     return (

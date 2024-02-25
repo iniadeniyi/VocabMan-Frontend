@@ -1,77 +1,55 @@
 import { useEffect, useState } from "react";
 import WordDisplay from "../../components/WordDisplay/WordDisplay";
 import Keyboard from "../../components/Keyboard/Keyboard";
-import { saveGameState } from "../../utils/gameUtils";
+import {
+    saveGameState,
+    loadGameState,
+    getInitialGameState,
+    evaluateGameStatus,
+} from "../../utils/gameUtils";
 import { useFetchWord } from "../../hooks/useFetchWord";
 import styles from "./GamePage.module.css";
 import { useGameStateContext } from "../../contexts/GameStateContext";
 import GameOverModal from "../../components/GameOverModal/GameOverModal";
+import { format } from "date-fns";
 
 function GamePage() {
-    const { data } = useFetchWord();
+    const { data: wordData, isLoading } = useFetchWord();
+    const { gameState, setGameState } = useGameStateContext();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [wordOfTheDay, setWordOfTheDay] = useState("");
 
-    const { gameState, setGameState, wordOfTheDay, setWordOfTheDay } =
-        useGameStateContext();
     useEffect(() => {
-        if (data) {
-            const newWord = data.word.toUpperCase();
-            const storedWord = localStorage.getItem("wordOfTheDay");
+        const today = format(new Date(), "yyyy-MM-dd");
+        const storedGameState = loadGameState();
+        console.log(storedGameState);
 
-            if (newWord !== storedWord) {
-                closeModal();
-                localStorage.setItem("wordOfTheDay", newWord);
-                setGameState({
-                    guessedLetters: [],
-                    remainingAttempts: 6,
-                    gameStatus: "playing",
-                    lastPlayed: new Date().toDateString(),
-                });
-            }
-            setWordOfTheDay(newWord);
+        if (!storedGameState || storedGameState.lastPlayed !== today) {
+            setGameState(getInitialGameState());
+        } else {
+            setGameState(storedGameState);
         }
-    }, [data]);
 
-    useEffect(() => {
-        saveGameState(gameState);
-    }, [gameState]);
+        setWordOfTheDay(wordData ? wordData.word : "");
+    }, [wordData]);
 
     const handleKeyboardClick = (letter: string) => {
-        if (!gameState.guessedLetters.includes(letter)) {
-            const newGuessedLetters = [...gameState.guessedLetters, letter];
-            const newRemainingAttempts = wordOfTheDay.includes(letter)
-                ? gameState.remainingAttempts
-                : gameState.remainingAttempts - 1;
-
-            setGameState((prevState) => ({
-                ...prevState,
-                guessedLetters: newGuessedLetters,
-                remainingAttempts: newRemainingAttempts,
-            }));
+        if (wordOfTheDay && !gameState.guessedLetters.includes(letter)) {
+            const updatedGameState = {
+                ...gameState,
+                guessedLetters: [...gameState.guessedLetters, letter],
+                remainingAttempts: wordOfTheDay.includes(letter)
+                    ? gameState.remainingAttempts
+                    : gameState.remainingAttempts - 1,
+            };
+            const newGameState = evaluateGameStatus(
+                wordOfTheDay,
+                updatedGameState
+            );
+            setGameState(newGameState);
+            saveGameState(newGameState);
         }
     };
-
-    useEffect(() => {
-        if (wordOfTheDay && wordOfTheDay.length > 0) {
-            const isGameWon = wordOfTheDay
-                .split("")
-                .every((letter: string) =>
-                    gameState.guessedLetters.includes(letter)
-                );
-            if (isGameWon) {
-                setGameState((prevState) => ({
-                    ...prevState,
-                    gameStatus: "won",
-                }));
-            } else if (gameState.remainingAttempts <= 0) {
-                setGameState((prevState) => ({
-                    ...prevState,
-                    gameStatus: "lost",
-                }));
-            }
-        }
-    }, [gameState.guessedLetters, gameState.remainingAttempts, wordOfTheDay]);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         if (gameState.gameStatus === "won" || gameState.gameStatus === "lost") {
@@ -79,32 +57,26 @@ function GamePage() {
         }
     }, [gameState.gameStatus]);
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
+    const closeModal = () => setIsModalOpen(false);
+
     return (
         <div className={styles.gameContainer}>
             <div className={styles.infoSectionContainer}>
                 Tries Left: {gameState.remainingAttempts}
             </div>
-            <div className={styles.wordDisplayContainer}>
-                <WordDisplay
-                    key={wordOfTheDay}
-                    word={wordOfTheDay}
-                    guessedLetters={gameState.guessedLetters}
-                />
-            </div>
-            <div className={styles.keyboardContainer}>
-                <Keyboard
-                    key={wordOfTheDay}
-                    handleClick={handleKeyboardClick}
-                    guessedLetters={gameState.guessedLetters}
-                    isDisabled={gameState.gameStatus !== "playing"}
-                />
-            </div>
-
+            <WordDisplay
+                key={`display-${wordOfTheDay}`}
+                word={wordOfTheDay}
+                guessedLetters={gameState.guessedLetters}
+            />
+            <Keyboard
+                key={`keyboard-${wordOfTheDay}`}
+                handleClick={handleKeyboardClick}
+                guessedLetters={gameState.guessedLetters}
+                isDisabled={gameState.gameStatus !== "playing"}
+            />
             <GameOverModal
-                data={data}
+                data={wordData}
                 isOpen={isModalOpen}
                 onClose={closeModal}
             />

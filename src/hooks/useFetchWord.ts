@@ -1,21 +1,31 @@
 import { useQuery } from "react-query";
+import { doc, getDoc } from "firebase/firestore";
+import { format } from "date-fns";
 
-const fetchWord = async () => {
-    const response = await fetch(
-        "https://vocabman-backend.onrender.com/api/word-of-the-day"
-    );
-    console.log(response);
-    if (!response.ok) {
-        console.log("error");
+import { firestore } from "../config/firebaseConfig.ts";
 
-        throw new Error("Network response was not ok");
+export interface WordData {
+    word: string;
+    definition: {
+        definition: string;
+        partOfSpeech?: string;
+    };
+    antonyms: string[];
+    synonyms: string[];
+    examples: string[];
+}
+
+const fetchWordFromFirestore = async (): Promise<WordData> => {
+    const todayFormatted = format(new Date(), "yyyy-MM-dd");
+    const docRef = doc(firestore, "words", todayFormatted);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        return docSnap.data() as WordData;
+    } else {
+        throw new Error("No word found for today.");
     }
-
-    const data = await response.json();
-    console.log(data);
-    return data;
 };
 
 export const useFetchWord = () => {
-    return useQuery("fetchWord", fetchWord);
+    return useQuery("fetchWord", fetchWordFromFirestore);
 };
