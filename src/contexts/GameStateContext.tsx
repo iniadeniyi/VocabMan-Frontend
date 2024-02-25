@@ -1,5 +1,9 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import { GameState, loadGameState } from "../utils/gameUtils";
+import {
+    GameState,
+    loadGameState,
+    getInitialGameState,
+} from "../utils/gameUtils";
 
 interface GameStateContextType {
     gameState: GameState;
@@ -17,7 +21,9 @@ const GameStateContext = createContext<GameStateContextType>(
 export const GameStateProvider: React.FC<GameProviderProps> = ({
     children,
 }) => {
-    const [gameState, setGameState] = useState<GameState>({} as GameState);
+    const [gameState, setGameState] = useState<GameState>(
+        loadGameState() || getInitialGameState()
+    );
 
     const contextValue = {
         gameState,
