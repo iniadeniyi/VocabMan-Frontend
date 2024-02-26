@@ -4,14 +4,14 @@
     align-items: center;
     justify-content: center;
     padding: 40px;
-    background-color: #f5f5f7; /* Adjust background color as needed */
-    min-height: 100vh; /* Full height */
+    background-color: #f5f5f7;
+    min-height: 100vh;
 }
 
 .infoSectionContainer {
     margin-bottom: 30px;
     text-align: center;
-    color: #333; /* For better readability */
+    color: #333;
 }
 
 .interactionWrapper {
@@ -19,13 +19,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    max-width: 600px; /* Adjust based on your preference */
+    max-width: 600px;
     width: 100%;
-    gap: 20px; /* Space between WordDisplay and Keyboard */
+    gap: 20px;
 }
 
 .button {
-    background-color: #007bff; /* Primary color */
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -36,12 +36,26 @@
 }
 
 .button:hover {
-    background-color: #0056b3; /* Darker shade for hover effect */
+    background-color: #0056b3;
 }
 
-/* Ensure WordDisplay and Keyboard have their CSS for internal elements */
 .wordDisplay,
 .keyboard {
-    width: 100%; /* Full width within the wrapper */
-    /* Additional styling as needed */
+    width: 100%;
+}
+
+@media (max-width: 468px) {
+    .interactionWrapper {
+        gap: 15px; /* Reduce gap */
+    }
+
+    .wordDisplay,
+    .keyboard {
+        font-size: 14px;
+    }
+
+    .keyboard .key {
+        padding: 8px 8px;
+        font-size: 14px;
+    }
 }
