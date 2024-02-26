@@ -3,37 +3,47 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px; /* Space between rows */
-    padding: 20px;
+    gap: 0.5rem;
+    padding: 0;
 }
 
 .keysRow {
     display: flex;
     justify-content: center;
-    gap: 5px; /* Space between keys */
+    gap: 0.3rem;
 }
 
 .key {
-    background-color: #007bff; /* Primary button color */
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
-    padding: 10px 16px;
+    padding: 0.4rem 1rem;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
-    user-select: none; /* Prevent the text on the button from being selectable */
-    -webkit-tap-highlight-color: transparent; /* Prevent tap highlight color on iOS */
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    min-width: 40px;
+    flex: 1;
+    max-width: 60px;
 }
 
+@media (max-width: 768px) {
+    .key {
+        padding: 6px;
+        min-width: 30px;
+        font-size: 0.8rem;
+    }
+}
 .key:disabled {
-    background-color: #cccccc; /* Disabled button color */
+    background-color: #cccccc;
     cursor: default;
 }
 
 .key:not(:disabled):hover,
 .key:not(:disabled):focus {
-    background-color: #0056b3; /* Hover/Focus color */
-    transform: scale(1.05); /* Slight increase in size */
+    background-color: #0056b3;
+    transform: scale(1.05);
     outline: none;
 }
