@@ -29,7 +29,7 @@ function GamePage() {
             setGameState(storedGameState);
         }
 
-        setWordOfTheDay(wordData ? wordData.word : "");
+        setWordOfTheDay(wordData ? wordData.word.toUpperCase() : "");
     }, [wordData]);
 
     const handleKeyboardClick = (letter: string) => {

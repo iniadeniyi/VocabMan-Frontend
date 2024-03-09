@@ -6,13 +6,14 @@ import { firestore } from "../config/firebaseConfig.ts";
 
 export interface WordData {
     word: string;
-    definition: {
-        definition: string;
-        partOfSpeech?: string;
-    };
-    antonyms: string[];
-    synonyms: string[];
-    examples: string[];
+    definition: string;
+    // definition: {
+    //     definition: string;
+    //     partOfSpeech?: string;
+    // };
+    // antonyms: string[];
+    // synonyms: string[];
+    // examples: string[];
 }
 
 const fetchWordFromFirestore = async (): Promise<WordData> => {

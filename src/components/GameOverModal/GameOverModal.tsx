@@ -35,9 +35,9 @@ function GameOverModal({ data, isOpen, onClose }: GameOverModalProps) {
                     Word of the Day: <span>{data.word}</span>
                 </p>
                 <p>
-                    <strong>Definition:</strong> {data.definition.definition}
+                    <strong>Definition:</strong> {data.definition}
                 </p>
-                <p>
+                {/* <p>
                     <strong>Synonyms:</strong> {data.synonyms.join(", ")}
                 </p>
                 <p>
@@ -48,7 +48,7 @@ function GameOverModal({ data, isOpen, onClose }: GameOverModalProps) {
                     {data.examples.map((example, index) => (
                         <span key={index}> {example}</span>
                     ))}
-                </div>
+                </div> */}
                 <p className={styles.prompt}>
                     Come back tomorrow for a new challenge!
                 </p>
