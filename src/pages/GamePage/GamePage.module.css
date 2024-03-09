@@ -12,6 +12,7 @@
     margin-bottom: 30px;
     text-align: center;
     color: #333;
+    user-select: none;
 }
 
 .interactionWrapper {
@@ -46,7 +47,7 @@
 
 @media (max-width: 468px) {
     .interactionWrapper {
-        gap: 15px; /* Reduce gap */
+        gap: 15px;
     }
 
     .wordDisplay,

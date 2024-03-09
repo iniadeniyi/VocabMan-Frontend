@@ -11,7 +11,7 @@ function HomePage() {
     return (
         <div className={styles.container}>
             <h1>VocabMan</h1>
-            <h2>Learn a new word a day, while you have fun!</h2>
+            <h2>Learn a new word everyday, while you have fun!</h2>
             <button className={styles.button} onClick={handlePlayClick}>
                 <strong>PLAY</strong>
             </button>
