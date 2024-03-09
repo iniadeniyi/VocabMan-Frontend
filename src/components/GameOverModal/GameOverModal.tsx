@@ -18,10 +18,10 @@ function GameOverModal({ data, isOpen, onClose }: GameOverModalProps) {
         const gameState = loadGameState();
         const status = gameState?.gameStatus;
         if (status === "won") {
-            setStatusMessage("Congratulations! You've won today's challenge!");
+            setStatusMessage("🎉 You've won today's challenge!");
         } else if (status === "lost") {
             setStatusMessage(
-                "Better luck next time! You can win the next challenge!"
+                "😔 Better luck next time! You can win tomorrow's challenge!"
             );
         }
     });
@@ -31,13 +31,21 @@ function GameOverModal({ data, isOpen, onClose }: GameOverModalProps) {
             <div className={styles.modalContent}>
                 <p>{statusMessage}</p>
 
-                <p className={styles.wordOfTheDay}>
-                    Word of the Day: <span>{data.word}</span>
+                <p>
+                    <span className={styles.wordOfTheDay}>
+                        <a
+                            href={`https://www.merriam-webster.com/dictionary/${data.word}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {data.word.toUpperCase()}
+                        </a>
+                    </span>
                 </p>
                 <p>
-                    <strong>Definition:</strong> {data.definition.definition}
+                    Definition: <strong>{data.definition}</strong>
                 </p>
-                <p>
+                {/* <p>
                     <strong>Synonyms:</strong> {data.synonyms.join(", ")}
                 </p>
                 <p>
@@ -48,7 +56,7 @@ function GameOverModal({ data, isOpen, onClose }: GameOverModalProps) {
                     {data.examples.map((example, index) => (
                         <span key={index}> {example}</span>
                     ))}
-                </div>
+                </div> */}
                 <p className={styles.prompt}>
                     Come back tomorrow for a new challenge!
                 </p>

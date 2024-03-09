@@ -12,23 +12,32 @@
 }
 
 .modalContent {
-    background-color: #f4f2f2;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #000;
+    background-color: #f5f5f7;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 10, 0.5); /* Increased shadow effect */
     max-width: 90%;
     width: 600px;
     text-align: center;
 }
 
-.wordOfTheDay {
+.wordOfTheDay a {
     font-weight: bold;
+    font-size: 30px;
     margin-bottom: 20px;
-    color: #007bff;
+    color: #ff9900;
+    text-decoration: none;
+}
+
+.wordOfTheDay a:hover,
+.wordOfTheDay a:focus {
+    text-decoration: underline; /* Add underline on hover/focus for visibility */
+    color: #0056b3; /* Darker blue on hover for visual feedback */
 }
 
 button {
-    background-color: #007bff;
+    background-color: #454646;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -61,6 +70,6 @@ button:hover {
 }
 
 .prompt {
-    color: #ff9900;
+    color: #007bff;
     font-weight: bolder;
 }
