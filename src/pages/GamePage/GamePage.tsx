@@ -14,7 +14,7 @@ import GameOverModal from "../../components/GameOverModal/GameOverModal";
 import { format } from "date-fns";
 
 function GamePage() {
-    const { data: wordData } = useFetchWord();
+    const { data: wordData, isLoading } = useFetchWord();
     const { gameState, setGameState } = useGameStateContext();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [wordOfTheDay, setWordOfTheDay] = useState("");
@@ -64,11 +64,15 @@ function GamePage() {
                 Tries Left: {gameState.remainingAttempts}
             </div>
             <div className={styles.interactionWrapper}>
-                <WordDisplay
-                    key={`display-${wordOfTheDay}`}
-                    word={wordOfTheDay}
-                    guessedLetters={gameState.guessedLetters}
-                />
+                {isLoading ? (
+                    <div className={styles.loader}>Loading...</div>
+                ) : (
+                    <WordDisplay
+                        key={`display-${wordOfTheDay}`}
+                        word={wordOfTheDay}
+                        guessedLetters={gameState.guessedLetters}
+                    />
+                )}
                 <Keyboard
                     key={`keyboard-${wordOfTheDay}`}
                     handleClick={handleKeyboardClick}

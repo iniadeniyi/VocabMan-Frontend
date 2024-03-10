@@ -10,8 +10,8 @@
     transform-style: preserve-3d;
     transition: transform 0.6s;
     cursor: pointer;
-    border-radius: 10px;
 }
+
 .card.flipped {
     transform: rotateY(180deg);
 }
@@ -25,7 +25,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 7px;
     user-select: none;
 }
 
@@ -44,13 +44,15 @@
 @media (max-width: 768px) {
     .card {
         width: 8vw;
-        min-width: 35px;
+        height: 5rem;
+        min-width: 25px;
     }
 }
 
 @media (max-width: 480px) {
     .card {
-        width: 6vw;
-        min-width: 30px;
+        width: 4vw;
+        height: 3rem;
+        min-width: 18px;
     }
 }
