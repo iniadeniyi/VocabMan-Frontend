@@ -6,6 +6,7 @@ import GamePage from "./pages/GamePage/GamePage";
 import "./App.css";
 import { GameStateProvider } from "./contexts/GameStateContext";
 import HomePage from "./pages/HomePage/HomePage";
+import AuthPage from "./pages/AuthPage/AuthPage";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ function App() {
                 <GameStateProvider>
                     <Router>
                         <Routes>
+                            <Route path="/auth" element={<AuthPage />} />
                             <Route path="/" element={<HomePage />} />
                             <Route path="/play" element={<GamePage />} />
                         </Routes>
