@@ -18,7 +18,7 @@ const AuthToggle = ({
 }) => {
     const isLogin = authType === LOGIN;
     return (
-        <p>
+        <div>
             {isLogin
                 ? "Don't have an account yet?"
                 : "Already have an account?"}
@@ -34,7 +34,7 @@ const AuthToggle = ({
                 <span className={styles.horizontalLine} />
             </div>
             <span className={styles.guest}>continue as guest</span>
-        </p>
+        </div>
     );
 };
 

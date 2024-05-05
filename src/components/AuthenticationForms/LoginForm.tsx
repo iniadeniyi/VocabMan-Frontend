@@ -1,7 +1,12 @@
 import { useState } from "react";
+
+import { useLogin } from "../../hooks/useLogIn";
+
 import styles from "./Form.module.css";
 
 const LoginForm = () => {
+    const { mutate: login, isLoading, error } = useLogin();
+
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -13,6 +18,13 @@ const LoginForm = () => {
             ...prevState,
             [name]: value,
         }));
+    };
+
+    const handleSubmit = async (event: { preventDefault: () => void }) => {
+        event.preventDefault();
+
+        const { ...dataToSend } = formData;
+        login(dataToSend);
     };
 
     return (

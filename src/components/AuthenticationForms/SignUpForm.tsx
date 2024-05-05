@@ -1,7 +1,12 @@
 import { useState } from "react";
+
+import { useSignUp } from "../../hooks/useSignUp";
+
 import styles from "./Form.module.css";
 
 const SignUpForm = () => {
+    const { mutate: signUp, isLoading, error } = useSignUp();
+
     const [formData, setFormData] = useState({
         username: "",
         email: "",
@@ -25,17 +30,8 @@ const SignUpForm = () => {
             return;
         }
 
-        // try {
-        //     const response = await axios.post(
-        //         "http://your-backend-url/api/signup",
-        //         formData
-        //     );
-        //     console.log("Server response:", response);
-        //     // Redirect or show success message
-        // } catch (error) {
-        //     console.error("Signup error:", error);
-        //     // Show error message
-        // }
+        const { confirmPassword, ...dataToSend } = formData;
+        signUp(dataToSend);
     };
 
     return (

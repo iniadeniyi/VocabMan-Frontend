@@ -1,36 +1,33 @@
 import axios from "axios";
-import { useAuth } from "../contexts/AuthContext";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 
-interface ISignUpData {
-    username: string;
+interface ILoginData {
     email: string;
     password: string;
 }
 
-export const useSignUp = () => {
-    const { login } = useAuth();
+export const useLogin = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
     return useMutation(
-        async (userData: ISignUpData) => {
+        async (credentials: ILoginData) => {
             const { data } = await axios.post(
-                "http://localhost:3000/api/v1/auth/register",
-                userData
+                "https://localhost:3000/api/v1/auth/login",
+                credentials
             );
             return data;
         },
         {
             onSuccess: (data) => {
-                console.log("Sign up successful", data);
+                console.log("log in successful", data);
+                localStorage.setItem("token", data.token);
                 queryClient.setQueryData("user", data.user);
-                login(data.token);
                 navigate("/");
             },
             onError: (error) => {
-                console.error("Sign up failed", error);
+                console.error("Login failed", error);
             },
         }
     );
