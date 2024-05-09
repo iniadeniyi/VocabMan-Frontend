@@ -30,7 +30,7 @@ const LoginForm = () => {
     return (
         <div className={styles.loginCard}>
             <div className={styles.header}>Welcome Back to VocabMan</div>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={handleSubmit}>
                 <input
                     type="email"
                     name="email"

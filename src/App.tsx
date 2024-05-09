@@ -2,8 +2,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from "./contexts/AuthContext";
-
 import { GameStateProvider } from "./contexts/GameStateContext";
+import { UserProvider } from "./contexts/UserContext";
 
 import AuthPage from "./pages/AuthPage/AuthPage";
 import GamePage from "./pages/GamePage/GamePage";
@@ -20,36 +20,38 @@ function App() {
         <>
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
-                    <GameStateProvider>
-                        <Router>
-                            <Routes>
-                                <Route
-                                    path="/auth"
-                                    element={
-                                        <PublicRoute>
-                                            <AuthPage />
-                                        </PublicRoute>
-                                    }
-                                />
-                                <Route
-                                    path="/"
-                                    element={
-                                        <ProtectedRoute>
-                                            <HomePage />
-                                        </ProtectedRoute>
-                                    }
-                                />
-                                <Route
-                                    path="/play"
-                                    element={
-                                        <ProtectedRoute>
-                                            <GamePage />
-                                        </ProtectedRoute>
-                                    }
-                                />
-                            </Routes>
-                        </Router>
-                    </GameStateProvider>
+                    <UserProvider>
+                        <GameStateProvider>
+                            <Router>
+                                <Routes>
+                                    <Route
+                                        path="/auth"
+                                        element={
+                                            <PublicRoute>
+                                                <AuthPage />
+                                            </PublicRoute>
+                                        }
+                                    />
+                                    <Route
+                                        path="/"
+                                        element={
+                                            <ProtectedRoute>
+                                                <HomePage />
+                                            </ProtectedRoute>
+                                        }
+                                    />
+                                    <Route
+                                        path="/play"
+                                        element={
+                                            <ProtectedRoute>
+                                                <GamePage />
+                                            </ProtectedRoute>
+                                        }
+                                    />
+                                </Routes>
+                            </Router>
+                        </GameStateProvider>
+                    </UserProvider>
                 </AuthProvider>
             </QueryClientProvider>
         </>

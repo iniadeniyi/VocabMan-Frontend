@@ -1,6 +1,11 @@
 import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "../contexts/AuthContext";
+import { useUser } from "../contexts/UserContext";
+
+import { endpoint } from "../main";
 
 interface ILoginData {
     email: string;
@@ -8,22 +13,23 @@ interface ILoginData {
 }
 
 export const useLogin = () => {
+    const { login } = useAuth();
+    const { setCurrentUser } = useUser();
+
     const navigate = useNavigate();
-    const queryClient = useQueryClient();
 
     return useMutation(
         async (credentials: ILoginData) => {
             const { data } = await axios.post(
-                "https://localhost:3000/api/v1/auth/login",
+                `${endpoint}/api/v1/auth/login`,
                 credentials
             );
             return data;
         },
         {
             onSuccess: (data) => {
-                console.log("log in successful", data);
-                localStorage.setItem("token", data.token);
-                queryClient.setQueryData("user", data.user);
+                setCurrentUser(data.user);
+                login(data.token);
                 navigate("/");
             },
             onError: (error) => {

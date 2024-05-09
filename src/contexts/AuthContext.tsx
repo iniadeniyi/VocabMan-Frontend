@@ -5,6 +5,7 @@ import {
     useEffect,
     useState,
 } from "react";
+import { jwtDecode } from "jwt-decode";
 
 interface IAuthContext {
     authToken: string | null;
@@ -29,11 +30,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const login = (token: string) => {
         localStorage.setItem("token", token);
         setAuthToken(token);
+        if (token && !isTokenExpired(token)) {
+            scheduleLogout(jwtDecode(token).exp!);
+        } else {
+            logout();
+        }
     };
 
     const logout = () => {
         localStorage.removeItem("token");
         setAuthToken(null);
+    };
+
+    const isTokenExpired = (token: string) => {
+        const decoded = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+        return decoded.exp! < currentTime;
+    };
+
+    const scheduleLogout = (expirationTime: number) => {
+        const logoutTime = expirationTime * 1000 - Date.now();
+        setTimeout(() => {
+            logout();
+        }, logoutTime);
     };
 
     return (
