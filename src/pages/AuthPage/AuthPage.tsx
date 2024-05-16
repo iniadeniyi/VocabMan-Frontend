@@ -1,58 +1,41 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 import LoginForm from "../../components/AuthenticationForms/LoginForm";
 import SignUpForm from "../../components/AuthenticationForms/SignUpForm";
+import AuthToggle from "./AuthToggle";
 
 import styles from "./AuthPage.module.css";
+
 import VocabManLogo from "../../assets/VocabManLogo.png";
 
-const LOGIN = "log in";
-const SIGNUP = "sign up";
+const AuthPage: React.FC = () => {
+    const [authType, setAuthType] = useState("log in");
 
-const AuthToggle = ({
-    authType,
-    setAuthType,
-}: {
-    authType: string;
-    setAuthType: React.Dispatch<React.SetStateAction<string>>;
-}) => {
-    const isLogin = authType === LOGIN;
-    return (
-        <div>
-            {isLogin
-                ? "Don't have an account yet?"
-                : "Already have an account?"}
-            <br />
-            <span
-                className={styles.authToggle}
-                onClick={() => setAuthType(isLogin ? SIGNUP : LOGIN)}
-            >
-                {isLogin ? "Create an account" : "Log In"}
-            </span>
-            <div className={styles.orContainer}>
-                <span className={styles.horizontalLine} /> or
-                <span className={styles.horizontalLine} />
-            </div>
-            <span className={styles.guest}>continue as guest</span>
-        </div>
-    );
-};
-
-const AuthPage = () => {
-    const [authType, setAuthType] = useState(LOGIN);
+    const renderForm = () => {
+        switch (authType) {
+            case "log in":
+                return <LoginForm />;
+            case "sign up":
+                return <SignUpForm />;
+            default:
+                return <div>Invalid auth type</div>;
+        }
+    };
 
     return (
         <div className={styles.container}>
             <div className={styles.left}>
-                <img src={VocabManLogo} alt="Logo" />
-                <p className={styles.infoText}>
+                <img
+                    src={VocabManLogo}
+                    alt="VocabMan Logo"
+                    className={styles.logo}
+                />
+                <p className={styles.slogan}>
                     VocabMan <br /> Have fun, improve vocabulary!
                 </p>
             </div>
             <div className={styles.right}>
-                <div className={styles.formWrapper}>
-                    {authType === LOGIN ? <LoginForm /> : <SignUpForm />}
-                </div>
+                <div className={styles.formWrapper}>{renderForm()}</div>
                 <AuthToggle authType={authType} setAuthType={setAuthType} />
             </div>
         </div>

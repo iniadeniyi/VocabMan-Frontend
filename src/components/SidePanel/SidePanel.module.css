@@ -1,5 +1,6 @@
 .sidePanel {
     width: 20%;
+    z-index: 10001;
     height: 100vh;
     position: fixed;
     left: 0;
@@ -25,6 +26,7 @@
 
 .userInfo > p {
     margin: 8px;
+    text-align: left;
 }
 
 .logo {
@@ -63,4 +65,20 @@
     text-align: center;
     cursor: pointer;
     color: #5c3d03;
+}
+
+@media (max-width: 1024px) {
+    .sidePanel {
+        width: 27%;
+        display: block;
+        z-index: 1000;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidePanel {
+        width: 70%;
+        display: block;
+        z-index: 1000;
+    }
 }

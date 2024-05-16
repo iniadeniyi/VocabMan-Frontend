@@ -1,9 +1,13 @@
 #root {
-    margin: 0 auto;
+    margin: 0;
     text-align: center;
 }
 
+html,
 body {
-    overflow: hidden;
     margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-y: auto; /* Allows vertical scrolling */
+    overflow-x: hidden;
 }

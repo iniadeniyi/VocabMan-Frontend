@@ -1,40 +1,50 @@
 import { format } from "date-fns";
+import { IGameState } from "../types";
 
-export interface GameState {
-    guessedLetters: string[];
-    remainingAttempts: number;
-    gameStatus: "playing" | "won" | "lost";
-    lastPlayed: string;
-}
-
-export const getInitialGameState = (): GameState => ({
+export const getInitialGameState = (): IGameState => ({
     guessedLetters: [],
     remainingAttempts: 6,
-    gameStatus: "playing",
+    status: "playing",
     lastPlayed: format(new Date(), "yyyy-MM-dd"),
 });
 
-export const saveGameState = (gameState: GameState) => {
+export const saveGameState = (gameState: IGameState) => {
     localStorage.setItem("gameState", JSON.stringify(gameState));
 };
 
-export const loadGameState = (): GameState | null => {
+export const loadGameState = (): IGameState | null => {
     const gameStateString = localStorage.getItem("gameState");
-    return gameStateString ? JSON.parse(gameStateString) : null;
+    if (gameStateString) {
+        return JSON.parse(gameStateString);
+    }
+    return null;
+};
+
+export const updateGameState = (
+    gameState: IGameState,
+    letter: string,
+    isLetterInWord: boolean
+): IGameState => {
+    return {
+        ...gameState,
+        guessedLetters: [...gameState.guessedLetters, letter],
+        remainingAttempts: isLetterInWord
+            ? gameState.remainingAttempts
+            : gameState.remainingAttempts - 1,
+    };
 };
 
 export const evaluateGameStatus = (
     word: string,
-    gameState: GameState
-): GameState => {
+    gameState: IGameState
+): IGameState => {
     const isWon = word
         .split("")
         .every((letter) => gameState.guessedLetters.includes(letter));
-
     const isLost = gameState.remainingAttempts <= 0;
 
     return {
         ...gameState,
-        gameStatus: isWon ? "won" : isLost ? "lost" : "playing",
+        status: isWon ? "won" : isLost ? "lost" : "playing",
     };
 };

@@ -9,18 +9,11 @@ interface IPerformance {
 }
 
 export const useLogActivity = () => {
-    const token = localStorage.getItem("token");
-    const headers = {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-    };
-
     return useMutation(
         async (performance: IPerformance) => {
             const { data } = await axios.post(
                 `${endpoint}/api/v1/activity/`,
-                performance,
-                { headers }
+                performance
             );
             return data;
         },

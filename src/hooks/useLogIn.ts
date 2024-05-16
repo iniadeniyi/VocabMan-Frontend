@@ -1,24 +1,26 @@
 import axios from "axios";
-import { useMutation } from "react-query";
+import { UseMutationResult, useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 
-import { useAuth } from "../contexts/AuthContext";
-import { useUser } from "../contexts/UserContext";
+import { useAuthContext } from "../contexts/AuthContext";
 
 import { endpoint } from "../main";
+import { IAuthResponse } from "../types";
 
 interface ILoginData {
     email: string;
     password: string;
 }
 
-export const useLogin = () => {
-    const { login } = useAuth();
-    const { setCurrentUser } = useUser();
-
+export const useLogin = (): UseMutationResult<
+    IAuthResponse,
+    Error,
+    ILoginData
+> => {
+    const { logIn } = useAuthContext();
     const navigate = useNavigate();
 
-    return useMutation(
+    return useMutation<IAuthResponse, Error, ILoginData>(
         async (credentials: ILoginData) => {
             const { data } = await axios.post(
                 `${endpoint}/api/v1/auth/login`,
@@ -27,9 +29,8 @@ export const useLogin = () => {
             return data;
         },
         {
-            onSuccess: (data) => {
-                setCurrentUser(data.user);
-                login(data.token);
+            onSuccess: (data: IAuthResponse) => {
+                logIn(data.token, data.user);
                 navigate("/");
             },
             onError: (error) => {

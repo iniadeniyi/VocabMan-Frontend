@@ -1,17 +1,11 @@
-import { format } from "date-fns";
-
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 import styles from "./SidePanel.module.css";
 
 import VocabManLogo from "../../assets/VocabManLogo.png";
-import { useUser } from "../../contexts/UserContext";
 
 const SidePanel = () => {
-    const { logout } = useAuth();
-    const { currentUser } = useUser();
-
-    const menuItems: any = [];
+    const { user, logOut } = useAuthContext();
 
     return (
         <div className={styles.sidePanel}>
@@ -23,26 +17,15 @@ const SidePanel = () => {
             <div className={styles.separator}></div>
 
             <div className={styles.userInfo}>
-                <p>{currentUser?.username}</p>
-                <p>current streak: {currentUser?.currentStreak}</p>
-                <p>longest streak: {currentUser?.longestStreak}</p>
-                <p>joined on: {currentUser?.createdAt}</p>
+                <p>username: {user?.username}</p>
+                <p>current streak: {user?.currentStreak} </p>
+                <p>longest streak: {user?.longestStreak} </p>
+                <p>joined on: {user?.createdAt}</p>
             </div>
 
             <div className={styles.separator}></div>
 
-            <p>activity log</p>
-
-            <div className={styles.separator}></div>
-
-            {/* {menuItems.map((item: any, index: number) => (
-                <div key={index} className="menu-item">
-                    <span className="icon">{item.icon}</span>
-                    <span className="text">{item.text}</span>
-                </div>
-            ))} */}
-
-            <p className={styles.logout} onClick={() => logout()}>
+            <p className={styles.logout} onClick={() => logOut()}>
                 log out
             </p>
         </div>

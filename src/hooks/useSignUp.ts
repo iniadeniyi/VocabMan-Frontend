@@ -1,9 +1,11 @@
 import axios from "axios";
-import { useAuth } from "../contexts/AuthContext";
-import { useMutation } from "react-query";
+import { useMutation, UseMutationResult } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../contexts/UserContext";
+
+import { useAuthContext } from "../contexts/AuthContext";
+
 import { endpoint } from "../main";
+import { IAuthResponse } from "../types";
 
 interface ISignUpData {
     username: string;
@@ -11,26 +13,28 @@ interface ISignUpData {
     password: string;
 }
 
-export const useSignUp = () => {
-    const { login } = useAuth();
-    const { setCurrentUser } = useUser();
+export const useSignUp = (): UseMutationResult<
+    IAuthResponse,
+    Error,
+    ISignUpData
+> => {
     const navigate = useNavigate();
+    const { logIn } = useAuthContext();
 
-    return useMutation(
+    return useMutation<IAuthResponse, Error, ISignUpData>(
         async (userData: ISignUpData) => {
-            const { data } = await axios.post(
+            const { data } = await axios.post<IAuthResponse>(
                 `${endpoint}/api/v1/auth/register`,
                 userData
             );
             return data;
         },
         {
-            onSuccess: (data) => {
-                setCurrentUser(data.user);
-                login(data.token);
+            onSuccess: (data: IAuthResponse) => {
+                logIn(data.token, data.user);
                 navigate("/");
             },
-            onError: (error) => {
+            onError: (error: any) => {
                 console.error("Sign up failed", error);
             },
         }

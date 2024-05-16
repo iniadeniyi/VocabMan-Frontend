@@ -4,16 +4,7 @@ import axios from "axios";
 import { endpoint } from "../main";
 
 const fetchUser = async () => {
-    const token = localStorage.getItem("token");
-    const headers = {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-    };
-
-    const response = await axios.get(`${endpoint}/api/v1/user/current`, {
-        headers,
-    });
-
+    const response = await axios.get(`${endpoint}/api/v1/user/current`);
     return response.data;
 };
 

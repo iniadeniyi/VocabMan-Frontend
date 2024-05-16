@@ -1,0 +1,14 @@
+.star,
+.filled,
+.halfFilled {
+    font-size: 40px;
+    color: grey;
+}
+
+.filled {
+    color: gold;
+}
+
+.halfFilled {
+    color: gold;
+}
