@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f4f4f8;
+    font-family: "Arial", sans-serif;
+}
+
+.infoSectionContainer {
+    margin: 15px;
+}
+
+.interactionWrapper {
+}
+
+.loader {
+    color: #2c3e50;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .interactionWrapper {
+        width: 95%;
+    }
+}

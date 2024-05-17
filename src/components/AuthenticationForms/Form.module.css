@@ -1,0 +1,53 @@
+.loginCard {
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    font-size: 14px;
+    text-align: left;
+    color: #f5a510;
+    margin-bottom: 20px;
+    font-weight: bolder;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form input {
+    min-width: 250px;
+    color: #0056b3;
+    padding: 10px;
+    border: 1px solid #787474;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.form button {
+    padding: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    background-color: #2c6fbb;
+    color: white;
+    cursor: pointer;
+}
+
+.form button:hover {
+    background-color: #0056b3;
+}
+
+.error {
+    font-size: 10px;
+    color: red;
+    margin: 0px 0;
+    text-align: center;
+}

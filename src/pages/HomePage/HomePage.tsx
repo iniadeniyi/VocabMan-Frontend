@@ -1,20 +1,33 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+import GameWindow from "../../components/GameWindow/GameWindow";
+import SidePanel from "../../components/SidePanel/SidePanel";
+
 import styles from "./HomePage.module.css";
 
 function HomePage() {
-    const navigate = useNavigate();
+    const [isPanelOpen, setIsPanelOpen] = useState(false);
 
-    const handlePlayClick = () => {
-        navigate("/play");
+    const togglePanel = () => {
+        setIsPanelOpen(!isPanelOpen);
     };
 
     return (
         <div className={styles.container}>
-            <h1>VocabMan</h1>
-            <h2>Learn a new word everyday, while you have fun!</h2>
-            <button className={styles.button} onClick={handlePlayClick}>
-                <strong>PLAY</strong>
+            <button className={styles.hamburger} onClick={togglePanel}>
+                &#9776;
             </button>
+
+            <div
+                className={
+                    isPanelOpen ? styles.sidePanelOpen : styles.sidePanel
+                }
+            >
+                <SidePanel />
+            </div>
+            <div className={styles.gameWindow}>
+                <GameWindow />
+            </div>
         </div>
     );
 }
