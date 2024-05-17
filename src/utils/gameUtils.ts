@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { IGameState } from "../types";
+import { IGameState, IUser } from "../types";
 
 export const getInitialGameState = (): IGameState => ({
     guessedLetters: [],
@@ -8,12 +8,15 @@ export const getInitialGameState = (): IGameState => ({
     lastPlayed: format(new Date(), "yyyy-MM-dd"),
 });
 
-export const saveGameState = (gameState: IGameState) => {
-    localStorage.setItem("gameState", JSON.stringify(gameState));
+export const saveGameState = (gameState: IGameState, user: IUser | null) => {
+    localStorage.setItem(
+        `gameState_${user?.username}`,
+        JSON.stringify(gameState)
+    );
 };
 
-export const loadGameState = (): IGameState | null => {
-    const gameStateString = localStorage.getItem("gameState");
+export const loadGameState = (user: IUser | null): IGameState | null => {
+    const gameStateString = localStorage.getItem(`gameState_${user?.username}`);
     if (gameStateString) {
         return JSON.parse(gameStateString);
     }

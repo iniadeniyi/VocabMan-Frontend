@@ -18,11 +18,13 @@ import {
 
 import styles from "./GameWindow.module.css";
 import GameOverModal from "../GameOverModal/GameOverModal";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 const GameWindow: React.FC = () => {
     const today = format(new Date(), "yyyy-MM-dd");
 
     const { gameState, setGameState, word, setWord } = useGameContext();
+    const { user } = useAuthContext();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -31,7 +33,7 @@ const GameWindow: React.FC = () => {
     const { data: challenge } = useDailyChallenge(today);
 
     useEffect(() => {
-        const prevGameState = loadGameState();
+        const prevGameState = loadGameState(user);
         if (prevGameState?.lastPlayed === today) {
             setGameState(prevGameState);
         }
@@ -62,7 +64,7 @@ const GameWindow: React.FC = () => {
             setIsModalOpen(true);
             logActivity({
                 challengeId: challenge._id,
-                stars: gameState.remainingAttempts / 2,
+                rating: gameState.remainingAttempts / 2,
             });
         }
     }, [gameState.status, word]);
@@ -79,7 +81,7 @@ const GameWindow: React.FC = () => {
         const newGameState = evaluateGameStatus(word.word, updatedGameState);
 
         setGameState(newGameState);
-        saveGameState(newGameState);
+        saveGameState(newGameState, user);
     };
 
     return (

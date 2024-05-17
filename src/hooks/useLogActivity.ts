@@ -5,7 +5,7 @@ import { endpoint } from "../main";
 
 interface IPerformance {
     challengeId: string;
-    stars: number;
+    rating: number;
 }
 
 export const useLogActivity = () => {

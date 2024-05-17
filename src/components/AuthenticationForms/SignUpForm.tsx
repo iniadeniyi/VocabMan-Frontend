@@ -34,7 +34,7 @@ const SignUpForm = () => {
     };
 
     const validUsername = (username: string) =>
-        /^[a-zA-Z0-9]{1,8}$/.test(username);
+        /^[a-zA-Z0-9]{6,8}$/.test(username);
 
     const validPassword = (password: string) => {
         return password.length >= 8;
@@ -48,7 +48,7 @@ const SignUpForm = () => {
             setErrors((prevErrors: any) => ({
                 ...prevErrors,
                 username:
-                    "Username must be 1-8 characters long and alphanumeric.",
+                    "Username must be 6-8 characters long and alphanumeric.",
             }));
             hasError = true;
         }
