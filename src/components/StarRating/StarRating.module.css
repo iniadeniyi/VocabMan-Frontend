@@ -1,14 +1,29 @@
-.star,
-.filled,
-.halfFilled {
-    font-size: 40px;
-    color: grey;
+.starRating {
+    position: relative;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    height: 24px;
 }
 
-.filled {
-    color: gold;
+.starsBackground,
+.starsForeground {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-.halfFilled {
+.starsForeground {
+    overflow: hidden;
+    white-space: nowrap;
+    transition: width 0.5s ease-in-out;
+}
+
+.star {
+    color: #ccc;
+}
+
+.starsForeground .star {
     color: gold;
 }

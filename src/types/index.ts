@@ -5,8 +5,9 @@ export interface IAuthResponse {
 export interface IGameState {
     guessedLetters: string[];
     remainingAttempts: number;
-    status: "playing" | "won" | "lost";
+    status: string;
     lastPlayed: string;
+    rating: number;
 }
 export interface IUser {
     username: string;

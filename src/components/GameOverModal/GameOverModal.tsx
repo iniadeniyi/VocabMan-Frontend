@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useGameContext } from "../../contexts/GameContext";
 
-import StarRating from "../StarRating/StarRating";
+// import StarRating from "../StarRating/StarRating";
 
 import styles from "./GameOverModal.module.css";
 
@@ -32,7 +32,8 @@ function GameOverModal({ isOpen, onClose }: GameOverModalProps) {
         <div className={styles.modalOverlay}>
             <div className={styles.modalContent}>
                 <p>{statusMessage}</p>
-                <StarRating />
+                {/* <StarRating /> */}
+                <h4>{gameState.rating}/5 stars</h4>
 
                 <p>
                     <span className={styles.wordOfTheDay}>
