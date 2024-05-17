@@ -6,6 +6,7 @@ export const getInitialGameState = (): IGameState => ({
     remainingAttempts: 6,
     status: "playing",
     lastPlayed: format(new Date(), "yyyy-MM-dd"),
+    rating: 0,
 });
 
 export const saveGameState = (gameState: IGameState, user: IUser | null) => {
@@ -46,8 +47,37 @@ export const evaluateGameStatus = (
         .every((letter) => gameState.guessedLetters.includes(letter));
     const isLost = gameState.remainingAttempts <= 0;
 
-    return {
+    const updatedGameState = {
         ...gameState,
         status: isWon ? "won" : isLost ? "lost" : "playing",
     };
+
+    if (isWon || isLost) {
+        const rating = calculateRating(updatedGameState, word);
+        return { ...updatedGameState, rating };
+    }
+
+    return updatedGameState;
+};
+
+export const calculateRating = (
+    gameState: IGameState,
+    word: string
+): number => {
+    const totalLetters = new Set(word).size;
+    const correctGuesses = gameState.guessedLetters.filter((letter) =>
+        word.includes(letter)
+    ).length;
+    const { remainingAttempts } = gameState;
+
+    const weightCorrect = 0.6;
+    const weightAttempts = 0.4;
+    const maxAttempts = 6;
+
+    const scoreCorrect = correctGuesses / totalLetters;
+    const scoreAttempts = remainingAttempts / maxAttempts;
+
+    const rating =
+        (scoreCorrect * weightCorrect + scoreAttempts * weightAttempts) * 5;
+    return parseFloat(rating.toFixed(1));
 };

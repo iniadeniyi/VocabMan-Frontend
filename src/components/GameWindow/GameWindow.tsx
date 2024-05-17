@@ -64,7 +64,7 @@ const GameWindow: React.FC = () => {
             setIsModalOpen(true);
             logActivity({
                 challengeId: challenge._id,
-                rating: gameState.remainingAttempts / 2,
+                rating: gameState.rating,
             });
         }
     }, [gameState.status, word]);

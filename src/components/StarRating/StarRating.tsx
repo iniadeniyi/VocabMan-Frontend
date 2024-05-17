@@ -1,39 +1,29 @@
 import { useGameContext } from "../../contexts/GameContext";
-
-import { BsStar, BsStarHalf, BsStarFill } from "react-icons/bs";
-
 import styles from "./StarRating.module.css";
+import { FaStar, FaRegStar } from "react-icons/fa";
 
-function StarRating() {
+const StarRating = () => {
     const { gameState } = useGameContext();
-
-    const stars = gameState.remainingAttempts / 2;
-    const total = 3;
-
-    const fullStars = Math.floor(stars);
-    const halfStar = stars % 1 >= 0.5 ? 1 : 0;
-    const emptyStars = total - fullStars - halfStar;
+    const totalStars = 5;
+    const fillPercentage = `${(gameState.rating / totalStars) * 100}%`;
 
     return (
         <div className={styles.starRating}>
-            {Array(fullStars)
-                .fill(0)
-                .map((_, index) => (
-                    <BsStarFill
-                        key={`full-${index}`}
-                        className={styles.filled}
-                    />
+            <div className={styles.starsBackground}>
+                {Array.from({ length: totalStars }, (_, index) => (
+                    <FaRegStar key={index} className={styles.star} />
                 ))}
-            {halfStar > 0 && (
-                <BsStarHalf key="half-1" className={styles.halfFilled} />
-            )}
-            {Array(emptyStars)
-                .fill(0)
-                .map((_, index) => (
-                    <BsStar key={`empty-${index}`} className={styles.star} />
+            </div>
+            <div
+                className={styles.starsForeground}
+                style={{ width: fillPercentage }}
+            >
+                {Array.from({ length: totalStars }, (_, index) => (
+                    <FaStar key={index} className={styles.star} />
                 ))}
+            </div>
         </div>
     );
-}
+};
 
 export default StarRating;
