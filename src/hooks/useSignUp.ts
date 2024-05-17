@@ -31,6 +31,7 @@ export const useSignUp = (): UseMutationResult<
         },
         {
             onSuccess: (data: IAuthResponse) => {
+                console.log(data);
                 localStorage.removeItem("gameState");
                 logIn(data.token, data.user);
                 navigate("/");
