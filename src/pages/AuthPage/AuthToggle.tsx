@@ -34,7 +34,7 @@ const AuthToggle: React.FC<AuthToggleProps> = ({ authType, setAuthType }) => {
                 <hr className={styles.horizontalLine} /> or
                 <hr className={styles.horizontalLine} />
             </div>
-            <p onClick={() => setAuthType("guest")}>Continue as guest</p>
+            {/* <p onClick={() => setAuthType("guest")}>Continue as guest</p> */}
         </div>
     );
 };
