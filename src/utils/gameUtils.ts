@@ -68,16 +68,14 @@ export const calculateRating = (
     const correctGuesses = gameState.guessedLetters.filter((letter) =>
         word.includes(letter)
     ).length;
-    const { remainingAttempts } = gameState;
-
-    const weightCorrect = 0.6;
-    const weightAttempts = 0.4;
-    const maxAttempts = 6;
+    const incorrectGuesses = 6 - gameState.remainingAttempts;
 
     const scoreCorrect = correctGuesses / totalLetters;
-    const scoreAttempts = remainingAttempts / maxAttempts;
 
-    const rating =
-        (scoreCorrect * weightCorrect + scoreAttempts * weightAttempts) * 5;
+    const penalty = incorrectGuesses * 0.3;
+
+    let rating = scoreCorrect * 5 - penalty;
+    rating = Math.max(0, Math.min(5, rating));
+
     return parseFloat(rating.toFixed(1));
 };
