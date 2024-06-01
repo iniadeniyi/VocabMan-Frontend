@@ -12,6 +12,7 @@ import { IUser } from "../types";
 
 interface IAuthContext {
     user: IUser | null;
+    updateCurrentUser: (user: IUser) => void;
     logIn: (token: string, user: IUser) => void;
     logOut: () => void;
 }
@@ -24,7 +25,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         const token = localStorage.getItem("token");
-
         if (token) {
             const decoded = jwtDecode<{ exp: number }>(token);
             if (decoded.exp * 1000 > Date.now()) {
@@ -34,7 +34,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 ] = `Bearer ${token}`;
             }
         }
-
         const setupInterceptors = () => {
             const onResponseError = (error: {
                 response: { status: number };
@@ -44,24 +43,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 }
                 return Promise.reject(error);
             };
-
             const interceptor = axios.interceptors.response.use(
                 (response) => response,
                 onResponseError
             );
-
             return () => {
                 axios.interceptors.response.eject(interceptor);
             };
         };
-
         return setupInterceptors();
     }, []);
 
-    const logIn = (token: string, user: IUser) => {
-        localStorage.setItem("token", token);
+    const updateCurrentUser = (user: IUser) => {
         localStorage.setItem("user", JSON.stringify(user));
         setUser(user);
+    };
+
+    const logIn = (token: string, user: IUser) => {
+        localStorage.setItem("token", token);
+        updateCurrentUser(user);
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     };
 
@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         delete axios.defaults.headers.common["Authorization"];
     };
 
-    const value = { user, logIn, logOut };
+    const value = { user, updateCurrentUser, logIn, logOut };
 
     return (
         <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

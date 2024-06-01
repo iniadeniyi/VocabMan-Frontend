@@ -19,12 +19,19 @@ import {
 import styles from "./GameWindow.module.css";
 import GameOverModal from "../GameOverModal/GameOverModal";
 import { useAuthContext } from "../../contexts/AuthContext";
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 const GameWindow: React.FC = () => {
     const today = format(new Date(), "yyyy-MM-dd");
 
     const { gameState, setGameState, word, setWord } = useGameContext();
-    const { user } = useAuthContext();
+    const { user, updateCurrentUser } = useAuthContext();
+
+    const { data: currentUser, isLoading: isFetchingUser } = useCurrentUser();
+
+    useEffect(() => {
+        if (!isFetchingUser) updateCurrentUser(currentUser);
+    }, [isFetchingUser]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
