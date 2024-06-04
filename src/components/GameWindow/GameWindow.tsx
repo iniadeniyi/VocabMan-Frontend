@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { format } from "date-fns";
 
 import { useGameContext } from "../../contexts/GameContext";
-
 import { useDailyChallenge } from "../../hooks/useDailyChallenge";
 import { useLogActivity } from "../../hooks/useLogActivity";
 
@@ -10,6 +9,7 @@ import WordDisplay from "../WordDisplay/WordDisplay";
 import Keyboard from "../Keyboard/Keyboard";
 
 import {
+    getInitialGameState,
     evaluateGameStatus,
     loadGameState,
     saveGameState,
@@ -31,26 +31,33 @@ const GameWindow: React.FC = () => {
 
     useEffect(() => {
         if (!isFetchingUser) updateCurrentUser(currentUser);
-    }, [isFetchingUser]);
+    }, [isFetchingUser, updateCurrentUser, currentUser]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [activityLogged, setActivityLogged] = useState(false);
 
     const { mutate: logActivity } = useLogActivity();
-
     const { data: challenge } = useDailyChallenge(today);
+
+    const resetGameState = useCallback(() => {
+        setGameState(getInitialGameState());
+    }, [setGameState, today]);
 
     useEffect(() => {
         const prevGameState = loadGameState(user);
         if (prevGameState?.lastPlayed === today) {
             setGameState(prevGameState);
+        } else {
+            resetGameState();
         }
-    }, [today]);
+    }, [today, user, setGameState, resetGameState]);
 
     useEffect(() => {
         if (challenge) {
             setWord(challenge.wordDetails);
+            resetGameState();
         }
-    }, [challenge]);
+    }, [challenge, setWord, resetGameState]);
 
     useEffect(() => {
         const handleKeyPress = (event: KeyboardEvent) => {
@@ -67,14 +74,15 @@ const GameWindow: React.FC = () => {
     }, [word, gameState]);
 
     useEffect(() => {
-        if (word && gameState.status !== "playing") {
+        if (word && gameState.status !== "playing" && !activityLogged) {
             setIsModalOpen(true);
             logActivity({
-                challengeId: challenge._id,
+                challengeId: challenge?._id,
                 rating: gameState.rating,
             });
+            setActivityLogged(true);
         }
-    }, [gameState.status, word]);
+    }, [gameState.status, word, challenge, logActivity, activityLogged]);
 
     const handleKeyboardClick = (letter: string) => {
         if (!word || gameState.guessedLetters.includes(letter)) return;
@@ -102,10 +110,15 @@ const GameWindow: React.FC = () => {
                     <p>Fetching today's challenge...</p>
                 ) : (
                     <WordDisplay
-                        key={`display-${word}`}
+                        key={`display-${word.word}`}
                         word={word.word}
                         guessedLetters={gameState.guessedLetters}
                     />
+                )}
+                {gameState.status !== "playing" && (
+                    <button onClick={() => setIsModalOpen(true)}>
+                        See Word of the Day
+                    </button>
                 )}
                 <Keyboard
                     key={`keyboard-${today}`}
